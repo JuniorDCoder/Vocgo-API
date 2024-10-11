@@ -1,7 +1,5 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AuthController;
 
 Route::get('/', function (){
@@ -14,3 +12,8 @@ Route::get('/auth/callback', [AuthController::class, 'handleGoogleCallback']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 Route::post('/logout', [AuthController::class, 'logout']);
+
+// Add these routes for password reset
+Route::get('/password/reset/{token}', function ($token) {
+    return view('auth.passwords.reset', ['token' => $token]);
+})->name('password.reset');

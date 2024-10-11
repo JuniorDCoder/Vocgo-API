@@ -65,6 +65,12 @@ class AuthController extends Controller
     public function forgotPassword(Request $request)
     {
         $request->validate(['email' => 'required|email']);
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json(['message' => 'Email does not exist'], 404);
+        }
+
         $status = Password::sendResetLink($request->only('email'));
 
         return $status === Password::RESET_LINK_SENT
